@@ -48,6 +48,7 @@ export const CartListWidget = ({ onShowToast }: CartListWidgetProps) => {
             <CartItem
               key={item.product.id}
               item={item}
+              cart={cart}
               control={
                 <CartItemControl item={item} onShowToast={onShowToast} />
               }

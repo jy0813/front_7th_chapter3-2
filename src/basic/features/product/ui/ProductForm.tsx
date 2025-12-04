@@ -98,7 +98,7 @@ export const ProductForm = ({
   const handleAddDiscount = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      discounts: [...prevFormData.discounts, { quantity: 10, rate: 10 }],
+      discounts: [...prevFormData.discounts, { quantity: 10, rate: 0.1 }],
     }));
   };
 

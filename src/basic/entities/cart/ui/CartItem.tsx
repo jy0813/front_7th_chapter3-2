@@ -5,13 +5,14 @@ import { formatPrice } from '../../../shared/lib/formatters';
 
 interface Props {
   item: CartItemType;
+  cart: CartItemType[]; // 전체 장바구니 (대량 구매 할인 계산용)
   control?: ReactNode; // (+ - 숫자) 통째로 들어옴
   action?: ReactNode; // (x) 삭제 버튼
 }
 
-export const CartItem = ({ item, control, action }: Props) => {
-  const itemTotal = getItemTotal(item, []);
-  const discountRate = getItemDiscountRate(item, []);
+export const CartItem = ({ item, cart, control, action }: Props) => {
+  const itemTotal = getItemTotal(item, cart);
+  const discountRate = getItemDiscountRate(item, cart);
 
   return (
     <div className="border-b pb-3 last:border-b-0">

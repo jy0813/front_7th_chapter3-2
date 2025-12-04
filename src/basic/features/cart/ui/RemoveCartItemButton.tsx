@@ -14,8 +14,7 @@ export const RemoveCartItemButton = ({
 }: RemoveCartItemButtonProps) => {
   const { removeFromCart } = useCart();
 
-  const handleRemove = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handleRemove = () => {
     removeFromCart(productId);
     onShowToast?.('상품이 삭제되었습니다.', 'success');
   };
@@ -23,7 +22,7 @@ export const RemoveCartItemButton = ({
   return (
     <Button
       variant="delete"
-      onClick={() => handleRemove}
+      onClick={handleRemove}
       aria-label="장바구니 아이템 삭제"
     >
       <CloseIcon />

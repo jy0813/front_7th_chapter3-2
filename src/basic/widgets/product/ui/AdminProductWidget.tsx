@@ -104,6 +104,7 @@ export const AdminProductWidget = ({
       {showForm && (
         <div className="p-6 border-t border-gray-200 bg-gray-50">
           <ProductForm
+            key={editingProduct?.id ?? 'new'}
             initialData={editingProduct ?? undefined}
             onShowToast={onShowToast}
             onClose={handleFormClose}

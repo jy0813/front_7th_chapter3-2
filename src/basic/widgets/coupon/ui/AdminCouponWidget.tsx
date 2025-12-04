@@ -5,7 +5,7 @@ import { AddCouponCard } from '../../../entities/coupon/ui/AddCouponCard';
 import { CouponForm } from '../../../features/coupon/ui/CouponForm';
 import { ToastMessage } from '../../../shared/hooks/useToast';
 import { Button } from '../../../shared/ui/Button';
-import { CloseIcon } from '../../../shared/ui/Icons';
+import { TrashIcon } from '../../../shared/ui/Icons';
 
 interface AdminCouponWidgetProps {
   onShowToast?: (message: string, type: ToastMessage['type']) => void;
@@ -46,7 +46,7 @@ export const AdminCouponWidget = ({ onShowToast }: AdminCouponWidgetProps) => {
                   onClick={() => handleDeleteClick(coupon.code)}
                   aria-label="쿠폰 삭제"
                 >
-                  <CloseIcon />
+                  <TrashIcon />
                 </Button>
               }
             />

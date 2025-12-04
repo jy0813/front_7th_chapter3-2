@@ -18,7 +18,7 @@ export const CouponForm = ({ onShowToast, onClose }: CouponFormProps) => {
   const [couponForm, setCouponForm] = useState<Coupon>({
     name: '',
     code: '',
-    discountType: 'percentage',
+    discountType: 'amount',
     discountValue: 0,
   });
 

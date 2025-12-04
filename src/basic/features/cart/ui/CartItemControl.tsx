@@ -15,8 +15,7 @@ export const CartItemControl = ({
   const { updateQuantity, removeFromCart } = useCart();
   const productId = item.product.id;
 
-  const handleDecrease = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handleDecrease = () => {
     if (item.quantity <= 1) {
       removeFromCart(productId);
     } else {
@@ -24,13 +23,12 @@ export const CartItemControl = ({
     }
   };
 
-  const handleIncrease = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handleIncrease = () => {
     // 재고 체크: 현재 수량이 전체 재고보다 적을 때만 증가
     if (item.quantity < item.product.stock) {
       updateQuantity(productId, item.quantity + 1);
     } else {
-      onShowToast?.('재고가 부족합니다!', 'error');
+      onShowToast?.(`재고는 ${item.product.stock}개까지만 있습니다.`, 'error');
     }
   };
 
@@ -38,7 +36,7 @@ export const CartItemControl = ({
     <>
       <Button
         variant="outline"
-        onClick={() => handleDecrease}
+        onClick={handleDecrease}
         className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-100"
         aria-label="수량 감소"
       >
@@ -49,7 +47,7 @@ export const CartItemControl = ({
       </span>
       <Button
         variant="outline"
-        onClick={() => handleIncrease}
+        onClick={handleIncrease}
         className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-100"
         aria-label="수량 증가"
       >

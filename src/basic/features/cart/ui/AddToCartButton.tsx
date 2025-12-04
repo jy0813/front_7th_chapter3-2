@@ -18,14 +18,12 @@ export const AddToCartButton = ({
   const remainingStock = getRemainingStockInCart(product, cart);
   const isSoldOut = remainingStock <= 0;
 
-  const handleAddToCart = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handleAddToCart = () => {
     if (isSoldOut) {
-      onShowToast?.('재고가 부족합니다!', 'error');
+      onShowToast?.(`재고는 ${product.stock}개까지만 있습니다.`, 'error');
       return;
     }
     addToCart(product);
-
     onShowToast?.('장바구니에 담았습니다', 'success');
   };
 
@@ -33,8 +31,9 @@ export const AddToCartButton = ({
     <Button
       size="lg"
       variant="dark"
-      onClick={() => handleAddToCart}
+      onClick={handleAddToCart}
       disabled={isSoldOut}
+      className="w-full"
     >
       {isSoldOut ? '품절' : '장바구니 담기'}
     </Button>

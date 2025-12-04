@@ -24,7 +24,7 @@ export const ProductCard = ({
       <div className="relative">
         <div className="aspect-square bg-gray-100 flex items-center justify-center">
           {/* 이미지 Placeholder */}
-          <ImageIcon />
+          <ImageIcon className="text-gray-300" />
         </div>
 
         {product.isRecommended && <Badge variant="best">BEST</Badge>}

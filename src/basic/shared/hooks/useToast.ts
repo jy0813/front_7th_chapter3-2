@@ -15,7 +15,7 @@ export const useToast = () => {
 
   const addToast = useCallback(
     (message: string, type: ToastMessage['type'] = 'success') => {
-      const id = Date.now().toString();
+      const id = crypto.randomUUID();
 
       setToasts((prevToasts) => [
         ...prevToasts,

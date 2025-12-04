@@ -16,9 +16,7 @@ export const PlaceOrderButton = ({
 }: PlaceOrderButtonProps) => {
   const { clearCart } = useCart();
 
-  const handleOrder = (e: MouseEvent) => {
-    e.stopPropagation();
-
+  const handleOrder = () => {
     const orderNumber = `ORD-${Date.now()}`;
 
     onShowToast?.(
@@ -36,7 +34,7 @@ export const PlaceOrderButton = ({
       variant="accent"
       size="xl"
       className="w-full mt-4"
-      onClick={() => handleOrder}
+      onClick={handleOrder}
     >
       {formatPrice(totalAmount)}원 결제하기
     </Button>
