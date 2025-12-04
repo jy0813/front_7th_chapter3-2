@@ -20,7 +20,7 @@ const variants = {
   primary: 'bg-indigo-600 text-white hover:bg-indigo-700',
   accent: 'bg-yellow-400 text-gray-900 hover:bg-yellow-500',
   text: 'text-gray-600 hover:text-gray-900',
-  subtle: 'text-indigo-600 hover:text-indigo-900',
+  subtle: 'text-indigo-600 hover:text-indigo-800',
   destructive: 'text-red-600 hover:text-red-900',
   delete: 'text-gray-400 hover:text-red-600',
 };
