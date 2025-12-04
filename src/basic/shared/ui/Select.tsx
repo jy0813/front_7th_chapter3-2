@@ -7,7 +7,7 @@ const variants = {
     'text-sm border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500',
 
   // [폼 입력] 관리자 페이지 등: 그림자(shadow-sm), 인디고 포커스 링
-  form: 'border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2',
+  form: 'border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2 border text-sm',
 };
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
