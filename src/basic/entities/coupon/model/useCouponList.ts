@@ -2,10 +2,11 @@ import { useCallback } from 'react';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import { initialCoupons } from './data';
 import { Coupon } from './types';
+import { STORAGE_KEYS } from '../../../shared/config/storageKeys';
 
 export const useCouponList = () => {
   const [coupons, setCoupons] = useLocalStorage<Coupon[]>(
-    'coupons',
+    STORAGE_KEYS.COUPONS,
     initialCoupons,
   );
 

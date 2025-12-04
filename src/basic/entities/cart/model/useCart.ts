@@ -2,9 +2,10 @@ import { useCallback } from 'react';
 import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
 import { CartItem } from './types';
 import { Product } from '../../product/model/types';
+import { STORAGE_KEYS } from '../../../shared/config/storageKeys';
 
 export const useCart = () => {
-  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
+  const [cart, setCart] = useLocalStorage<CartItem[]>(STORAGE_KEYS.CART, []);
 
   const getItem = useCallback(
     (productId: string) => {
@@ -62,6 +63,8 @@ export const useCart = () => {
     setCart([]);
   }, [setCart]);
 
+  const totalItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   return {
     cart,
     getItem,
@@ -69,5 +72,6 @@ export const useCart = () => {
     removeFromCart,
     updateQuantity,
     clearCart,
+    totalItemCount,
   };
 };
