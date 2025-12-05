@@ -11,13 +11,8 @@ import { Coupon } from '../../../entities/coupon/model/types';
 import { CartItemControl } from '../../../features/cart/ui/CartItemControl';
 import { RemoveCartItemButton } from '../../../features/cart/ui/RemoveCartItemButton';
 import { PlaceOrderButton } from '../../../features/order/ui/PlaceOrderButton';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 
-interface CartListWidgetProps {
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
-}
-
-export const CartListWidget = ({ onShowToast }: CartListWidgetProps) => {
+export const CartListWidget = () => {
   const { cart } = useCart();
   const { coupons } = useCouponList();
 
@@ -49,15 +44,8 @@ export const CartListWidget = ({ onShowToast }: CartListWidgetProps) => {
               key={item.product.id}
               item={item}
               cart={cart}
-              control={
-                <CartItemControl item={item} onShowToast={onShowToast} />
-              }
-              action={
-                <RemoveCartItemButton
-                  productId={item.product.id}
-                  onShowToast={onShowToast}
-                />
-              }
+              control={<CartItemControl item={item} />}
+              action={<RemoveCartItemButton productId={item.product.id} />}
             />
           ))}
         </div>
@@ -80,7 +68,6 @@ export const CartListWidget = ({ onShowToast }: CartListWidgetProps) => {
         action={
           <PlaceOrderButton
             totalAmount={totals.totalAfterDiscount}
-            onShowToast={onShowToast}
             onOrderComplete={handleOrderComplete}
           />
         }

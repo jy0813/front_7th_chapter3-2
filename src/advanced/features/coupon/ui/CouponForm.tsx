@@ -1,19 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useCouponList } from '../../../entities/coupon/model/useCouponList';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 import { Coupon } from '../../../entities/coupon/model/types';
+import { useToast } from '../../../shared/hooks/useToast';
 import { isOnlyNumber } from '../../../shared/lib/validators';
 import { Input } from '../../../shared/ui/Input';
 import { Button } from '../../../shared/ui/Button';
 import { Select } from '../../../shared/ui/Select';
 
 interface CouponFormProps {
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
   onClose?: () => void;
 }
 
-export const CouponForm = ({ onShowToast, onClose }: CouponFormProps) => {
+export const CouponForm = ({ onClose }: CouponFormProps) => {
   const { addCoupon } = useCouponList();
+  const { addToast } = useToast();
 
   const [couponForm, setCouponForm] = useState<Coupon>({
     name: '',
@@ -52,14 +52,14 @@ export const CouponForm = ({ onShowToast, onClose }: CouponFormProps) => {
 
     if (couponForm.discountType === 'percentage') {
       if (value > 100) {
-        onShowToast?.('할인율은 100%를 초과할 수 없습니다', 'error');
+        addToast('할인율은 100%를 초과할 수 없습니다', 'error');
         setCouponForm({ ...couponForm, discountValue: 100 });
       } else if (value < 0) {
         setCouponForm({ ...couponForm, discountValue: 0 });
       }
     } else {
       if (value > 100000) {
-        onShowToast?.('할인 금액은 100,000원을 초과할 수 없습니다', 'error');
+        addToast('할인 금액은 100,000원을 초과할 수 없습니다', 'error');
         setCouponForm({ ...couponForm, discountValue: 100000 });
       } else if (value < 0) {
         setCouponForm({ ...couponForm, discountValue: 0 });
@@ -70,7 +70,7 @@ export const CouponForm = ({ onShowToast, onClose }: CouponFormProps) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     addCoupon(couponForm);
-    onShowToast?.('쿠폰이 추가되었습니다.', 'success');
+    addToast('쿠폰이 추가되었습니다.', 'success');
     onClose?.();
   };
 

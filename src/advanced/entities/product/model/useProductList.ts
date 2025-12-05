@@ -1,48 +1,22 @@
+import { useProductStore } from '../../../shared/stores';
 import { Product } from './types';
-import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
-import { initialProducts } from './data';
-import { useCallback } from 'react';
-import { createProduct } from './product';
-import { STORAGE_KEYS } from '../../../shared/config/storageKeys';
 
-export const useProductList = () => {
-  const [products, setProducts] = useLocalStorage<Product[]>(
-    STORAGE_KEYS.PRODUCTS,
-    initialProducts,
-  );
+interface UseProductListReturn {
+  products: Product[];
+  addProduct: (product: Omit<Product, 'id'>) => void;
+  updateProduct: (id: string, updates: Partial<Product>) => void;
+  deleteProduct: (id: string) => void;
+}
 
-  const addProduct = useCallback(
-    (newProduct: Omit<Product, 'id'>) => {
-      const product = createProduct(newProduct);
-      setProducts((prevProducts) => [...prevProducts, product]);
-    },
-    [setProducts],
-  );
-
-  const updateProduct = useCallback(
-    (productId: string, updates: Partial<Product>) => {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === productId
-            ? {
-                ...product,
-                ...updates,
-              }
-            : product,
-        ),
-      );
-    },
-    [setProducts],
-  );
-
-  const deleteProduct = useCallback(
-    (productId: string) => {
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== productId),
-      );
-    },
-    [setProducts],
-  );
+/**
+ * 상품 목록 도메인 훅
+ * Zustand Store를 래핑하여 도메인 인터페이스 제공
+ */
+export const useProductList = (): UseProductListReturn => {
+  const products = useProductStore((state) => state.products);
+  const addProduct = useProductStore((state) => state.addProduct);
+  const updateProduct = useProductStore((state) => state.updateProduct);
+  const deleteProduct = useProductStore((state) => state.deleteProduct);
 
   return {
     products,

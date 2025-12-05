@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import { AdminProductWidget } from '../widgets/product/ui/AdminProductWidget';
 import { AdminCouponWidget } from '../widgets/coupon/ui/AdminCouponWidget';
-import { ToastMessage } from '../shared/hooks/useToast';
 
-interface AdminPageProps {
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
-}
-
-export const AdminPage = ({ onShowToast }: AdminPageProps) => {
+export const AdminPage = () => {
   const [activeTab, setActiveTab] = useState<'products' | 'coupons'>('products');
 
   return (
@@ -46,9 +41,9 @@ export const AdminPage = ({ onShowToast }: AdminPageProps) => {
 
       {/* 콘텐츠 */}
       {activeTab === 'products' ? (
-        <AdminProductWidget onShowToast={onShowToast} />
+        <AdminProductWidget />
       ) : (
-        <AdminCouponWidget onShowToast={onShowToast} />
+        <AdminCouponWidget />
       )}
     </div>
   );

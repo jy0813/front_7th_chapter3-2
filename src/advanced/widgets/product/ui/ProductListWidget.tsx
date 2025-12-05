@@ -1,20 +1,15 @@
-import { useProductList } from '../../../entities/product/model/useProductList';
 import { useCart } from '../../../entities/cart/model/useCart';
+import { useProductList } from '../../../entities/product/model/useProductList';
 import { searchProducts } from '../../../entities/product/lib/search';
 import { ProductCard } from '../../../entities/product/ui/ProductCard';
 import { EmptySearchResult } from '../../../entities/product/ui/EmptySearchResult';
 import { AddToCartButton } from '../../../features/cart/ui/AddToCartButton';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 
 interface ProductListWidgetProps {
   searchTerm: string; // debounced된 값을 받음
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
 }
 
-export const ProductListWidget = ({
-  searchTerm,
-  onShowToast,
-}: ProductListWidgetProps) => {
+export const ProductListWidget = ({ searchTerm }: ProductListWidgetProps) => {
   const { products } = useProductList();
   const { cart } = useCart();
 
@@ -45,9 +40,7 @@ export const ProductListWidget = ({
               key={product.id}
               product={product}
               usedQuantity={getUsedQuantity(product.id)}
-              action={
-                <AddToCartButton product={product} onShowToast={onShowToast} />
-              }
+              action={<AddToCartButton product={product} />}
             />
           ))}
         </div>

@@ -1,18 +1,16 @@
-import { CartItem } from '../../../entities/cart/model/types';
 import { useCart } from '../../../entities/cart/model/useCart';
-import { ToastMessage } from '../../../shared/hooks/useToast';
+import { CartItem } from '../../../entities/cart/model/types';
+import { useToast } from '../../../shared/hooks/useToast';
 import { Button } from '../../../shared/ui/Button';
 
 interface CartItemControlProps {
   item: CartItem;
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
 }
 
-export const CartItemControl = ({
-  item,
-  onShowToast,
-}: CartItemControlProps) => {
+export const CartItemControl = ({ item }: CartItemControlProps) => {
   const { updateQuantity, removeFromCart } = useCart();
+  const { addToast } = useToast();
+
   const productId = item.product.id;
 
   const handleDecrease = () => {
@@ -28,7 +26,7 @@ export const CartItemControl = ({
     if (item.quantity < item.product.stock) {
       updateQuantity(productId, item.quantity + 1);
     } else {
-      onShowToast?.(`재고는 ${item.product.stock}개까지만 있습니다.`, 'error');
+      addToast(`재고는 ${item.product.stock}개까지만 있습니다.`, 'error');
     }
   };
 

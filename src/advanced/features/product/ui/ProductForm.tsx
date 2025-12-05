@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { NewProduct, Product } from '../../../entities/product/model/types';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 import { useProductList } from '../../../entities/product/model/useProductList';
+import { useToast } from '../../../shared/hooks/useToast';
 import { Input } from '../../../shared/ui/Input';
 import { isValidPrice, isValidStock } from '../../../entities/product/lib';
 import { extractNumbers, isOnlyNumber } from '../../../shared/lib/validators';
@@ -10,16 +10,13 @@ import { Button } from '../../../shared/ui/Button';
 
 interface ProductFormProps {
   initialData?: Product;
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
   onClose?: () => void;
 }
 
-export const ProductForm = ({
-  initialData,
-  onShowToast,
-  onClose,
-}: ProductFormProps) => {
+export const ProductForm = ({ initialData, onClose }: ProductFormProps) => {
   const { addProduct, updateProduct } = useProductList();
+  const { addToast } = useToast();
+
   const [formData, setFormData] = useState<NewProduct>({
     name: '',
     price: 0,
@@ -41,7 +38,7 @@ export const ProductForm = ({
 
   const handlePriceBlur = () => {
     if (!isValidPrice(formData.price) && formData.price < 0) {
-      onShowToast?.('가격은 0보다 커야 합니다', 'error');
+      addToast('가격은 0보다 커야 합니다', 'error');
       setFormData({ ...formData, price: 0 });
     }
   };
@@ -58,13 +55,13 @@ export const ProductForm = ({
 
   const handleStockBlur = () => {
     if (!isValidStock(formData.stock)) {
-      onShowToast?.('재고는 0보다 커야 합니다', 'error');
+      addToast('재고는 0보다 커야 합니다', 'error');
       setFormData({ ...formData, stock: 0 });
       return;
     }
 
     if (formData.stock > 9999) {
-      onShowToast?.('재고는 9999개를 초과할 수 없습니다', 'error');
+      addToast('재고는 9999개를 초과할 수 없습니다', 'error');
       setFormData({ ...formData, stock: 9999 });
     }
   };
@@ -107,10 +104,10 @@ export const ProductForm = ({
 
     if (initialData) {
       updateProduct(initialData.id, formData);
-      onShowToast?.('상품이 수정되었습니다.', 'success');
+      addToast('상품이 수정되었습니다.', 'success');
     } else {
       addProduct(formData);
-      onShowToast?.('상품이 추가되었습니다.', 'success');
+      addToast('상품이 추가되었습니다.', 'success');
     }
 
     onClose?.();

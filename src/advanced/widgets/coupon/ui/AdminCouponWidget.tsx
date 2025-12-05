@@ -1,24 +1,21 @@
 import { useState } from 'react';
 import { useCouponList } from '../../../entities/coupon/model/useCouponList';
+import { useToast } from '../../../shared/hooks/useToast';
 import { CouponCard } from '../../../entities/coupon/ui/CouponCard';
 import { AddCouponCard } from '../../../entities/coupon/ui/AddCouponCard';
 import { CouponForm } from '../../../features/coupon/ui/CouponForm';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 import { Button } from '../../../shared/ui/Button';
 import { TrashIcon } from '../../../shared/ui/Icons';
 
-interface AdminCouponWidgetProps {
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
-}
-
-export const AdminCouponWidget = ({ onShowToast }: AdminCouponWidgetProps) => {
+export const AdminCouponWidget = () => {
   const { coupons, deleteCoupon } = useCouponList();
+  const { addToast } = useToast();
 
   const [showForm, setShowForm] = useState(false);
 
   const handleDeleteClick = (couponCode: string) => {
     deleteCoupon(couponCode);
-    onShowToast?.('쿠폰이 삭제되었습니다.', 'success');
+    addToast('쿠폰이 삭제되었습니다.', 'success');
   };
 
   const handleFormClose = () => {
@@ -59,7 +56,7 @@ export const AdminCouponWidget = ({ onShowToast }: AdminCouponWidgetProps) => {
         {/* 쿠폰 폼 */}
         {showForm && (
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <CouponForm onShowToast={onShowToast} onClose={handleFormClose} />
+            <CouponForm onClose={handleFormClose} />
           </div>
         )}
       </div>

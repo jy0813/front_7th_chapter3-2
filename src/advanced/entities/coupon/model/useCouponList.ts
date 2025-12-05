@@ -1,30 +1,24 @@
-import { useCallback } from 'react';
-import { useLocalStorage } from '../../../shared/hooks/useLocalStorage';
-import { initialCoupons } from './data';
+import { useCouponStore } from '../../../shared/stores';
 import { Coupon } from './types';
-import { STORAGE_KEYS } from '../../../shared/config/storageKeys';
 
-export const useCouponList = () => {
-  const [coupons, setCoupons] = useLocalStorage<Coupon[]>(
-    STORAGE_KEYS.COUPONS,
-    initialCoupons,
-  );
+interface UseCouponListReturn {
+  coupons: Coupon[];
+  addCoupon: (coupon: Coupon) => void;
+  deleteCoupon: (code: string) => void;
+}
 
-  const addCoupon = useCallback(
-    (newCoupon: Coupon) => {
-      setCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
-    },
-    [setCoupons],
-  );
+/**
+ * 쿠폰 목록 도메인 훅
+ * Zustand Store를 래핑하여 도메인 인터페이스 제공
+ */
+export const useCouponList = (): UseCouponListReturn => {
+  const coupons = useCouponStore((state) => state.coupons);
+  const addCoupon = useCouponStore((state) => state.addCoupon);
+  const deleteCoupon = useCouponStore((state) => state.deleteCoupon);
 
-  const deleteCoupon = useCallback(
-    (couponCode: string) => {
-      setCoupons((prevCoupons) =>
-        prevCoupons.filter((coupon) => coupon.code !== couponCode),
-      );
-    },
-    [setCoupons],
-  );
-
-  return { coupons, addCoupon, deleteCoupon };
+  return {
+    coupons,
+    addCoupon,
+    deleteCoupon,
+  };
 };

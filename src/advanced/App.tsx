@@ -7,7 +7,8 @@ import { useDebounce } from './shared/hooks/useDebounce';
 import { Toast } from './shared/ui/Toast';
 
 const App = () => {
-  const { toasts, addToast, removeToast } = useToast();
+  const { toasts, removeToast } = useToast();
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -40,9 +41,9 @@ const App = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {isAdmin ? (
-          <AdminPage onShowToast={addToast} />
+          <AdminPage />
         ) : (
-          <ShopPage searchTerm={debouncedSearchTerm} onShowToast={addToast} />
+          <ShopPage searchTerm={debouncedSearchTerm} />
         )}
       </main>
     </div>

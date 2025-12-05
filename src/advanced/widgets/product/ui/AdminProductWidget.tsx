@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import { useProductList } from '../../../entities/product/model/useProductList';
+import { useToast } from '../../../shared/hooks/useToast';
 import { ProductTableRow } from '../../../entities/product/ui/ProductTableRow';
 import { Product } from '../../../entities/product/model/types';
 import { ProductForm } from '../../../features/product/ui/ProductForm';
-import { ToastMessage } from '../../../shared/hooks/useToast';
 import { Button } from '../../../shared/ui/Button';
 
-interface AdminProductWidgetProps {
-  onShowToast?: (message: string, type: ToastMessage['type']) => void;
-}
-
-export const AdminProductWidget = ({
-  onShowToast,
-}: AdminProductWidgetProps) => {
+export const AdminProductWidget = () => {
   const { products, deleteProduct } = useProductList();
+  const { addToast } = useToast();
 
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -30,7 +25,7 @@ export const AdminProductWidget = ({
 
   const handleDeleteClick = (productId: string) => {
     deleteProduct(productId);
-    onShowToast?.('상품이 삭제되었습니다.', 'success');
+    addToast('상품이 삭제되었습니다.', 'success');
   };
 
   const handleFormClose = () => {
@@ -106,7 +101,6 @@ export const AdminProductWidget = ({
           <ProductForm
             key={editingProduct?.id ?? 'new'}
             initialData={editingProduct ?? undefined}
-            onShowToast={onShowToast}
             onClose={handleFormClose}
           />
         </div>

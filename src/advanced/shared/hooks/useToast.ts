@@ -1,37 +1,26 @@
-import { useCallback, useState } from 'react';
+import { useToastStore, ToastMessage } from '../stores';
 
-export interface ToastMessage {
-  id: string;
-  message: string;
-  type: 'success' | 'error' | 'warning';
+interface UseToastReturn {
+  toasts: ToastMessage[];
+  addToast: (message: string, type?: ToastMessage['type']) => void;
+  removeToast: (id: string) => void;
 }
 
-export const useToast = () => {
-  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+/**
+ * 토스트 알림 훅
+ * Zustand Store를 래핑하여 도메인 인터페이스 제공
+ */
+export const useToast = (): UseToastReturn => {
+  const toasts = useToastStore((state) => state.toasts);
+  const addToast = useToastStore((state) => state.addToast);
+  const removeToast = useToastStore((state) => state.removeToast);
 
-  const removeToast = useCallback((id: string) => {
-    setToasts((prevToast) => prevToast.filter((toast) => toast.id !== id));
-  }, []);
-
-  const addToast = useCallback(
-    (message: string, type: ToastMessage['type'] = 'success') => {
-      const id = crypto.randomUUID();
-
-      setToasts((prevToasts) => [
-        ...prevToasts,
-        {
-          id,
-          message,
-          type,
-        },
-      ]);
-
-      setTimeout(() => {
-        removeToast(id);
-      }, 3000);
-    },
-    [removeToast],
-  );
-
-  return { toasts, addToast, removeToast };
+  return {
+    toasts,
+    addToast,
+    removeToast,
+  };
 };
+
+// 타입 재export (하위 호환성)
+export type { ToastMessage };
